@@ -17,6 +17,7 @@ import Login from './screens/login';
 import HomePage from './screens/home';
 import Card from './Component/Card';
 import UserDetail from './Component/UserDetail';
+import Profile from './screens/Profile';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
               <Route path="/home" element={<HomePage />} />
               <Route path="/card/:name" element={<Card />} /> 
               <Route path="/user/:id" element={<UserDetail />} /> 
+              <Route path="/profile" element={<Profile />} /> 
             </Routes>
           </div>
         </div>

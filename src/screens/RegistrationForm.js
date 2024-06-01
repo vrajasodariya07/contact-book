@@ -13,7 +13,7 @@ const RegistrationForm = () => {
   const [middleName, setMiddleName] = useState('');
   const [lastName, setLastName] = useState('');
   const [community, setCommunity] = useState('');
-  const [currentcity, setCurrentCity] = useState('');
+  const [city, setCity] = useState('');
   const [native, setNative] = useState('');
   const [gender, setGender] = useState('');
   const [birthDate, setBirthDate] = useState('');
@@ -51,7 +51,7 @@ const RegistrationForm = () => {
         middleName,
         lastName,
         community,
-        currentcity, 
+        city, 
         native,
         gender,
         birthDate,
@@ -117,13 +117,13 @@ const RegistrationForm = () => {
                 )}
               </select>
 
-              <label htmlFor="currentcity">Current City:</label> {/* Fixed consistency */}
+              <label htmlFor="currentcity">Current City:</label> 
               <input
                 type="text"
-                id="currentcity"
-                name="currentcity"
-                value={currentcity}
-                onChange={(e) => setCurrentCity(e.target.value)}
+                id="city"
+                name="city"
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 required
               />
 

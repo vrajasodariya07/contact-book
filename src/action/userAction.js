@@ -15,7 +15,12 @@ import {
   USER_LOGOUT,
   USER_DETAILS_REQUEST,
   USER_DETAILS_SUCCESS,
-  USER_DETAILS_FAIL
+  USER_DETAILS_FAIL,
+  USER_UPDATE_REQUEST,
+  USER_UPDATE_SUCCESS,
+  USER_UPDATE_PROFILE_FAIL,
+  USER_UPDATE_PROFILE_REQUEST,
+  USER_UPDATE_PROFILE_SUCCESS
 } from "../constants/userConstants";
 
 // const update = ({ userId, name, email, password }) => async (dispatch, getState) => {
@@ -106,26 +111,26 @@ const enum_data = () => async (dispatch, getState) => {
   }
 }
 
-// const updateUser = (user) => async (dispatch, getState) => {
-//   dispatch({ type: USER_UPDATE_REQUEST, payload: user });
-//   const {
-//     userSignin: { userInfo },
-//   } = getState();
-//   try {
-//     const { data } = await Axios.put(`/api/users/${user._id}`, user, {
-//       headers: { Authorization: `Bearer ${userInfo.token}` },
-//     });
-//     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
-//     //dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-//     //localStorage.setItem('userInfo', JSON.stringify(data));
-//   } catch (error) {
-//     const message =
-//       error.response && error.response.data.message
-//         ? error.response.data.message
-//         : error.message;
-//     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
-//   }
-// };
+const updateUser = (user) => async (dispatch, getState) => {
+  dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
+  const {
+    userSignin: { userInfo },
+  } = getState();
+  try {
+    const { data } = await Axios.put(`http://localhost:7000/api/users/updateuser`, user, {
+      headers: { Authorization: `Bearer ${userInfo.token}` },
+    });
+    dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
+    //dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
+    //localStorage.setItem('userInfo', JSON.stringify(data));
+  } catch (error) {
+    const message =
+      error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message;
+    dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
+  }
+};
 
 
 const detailsUser = (userId) => async (dispatch, getState) => {
@@ -135,7 +140,7 @@ const detailsUser = (userId) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get(`https://contactclub.vercel.app/api/users/${userId}`, {
+    const { data } = await Axios.get(`http://localhost:7000/api/users/${userId}`, {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
@@ -215,4 +220,4 @@ const logout = () => (dispatch) => {
 
 
 
-export { signin, listUsers, register, enum_data, logout, detailsUser };
+export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser };
