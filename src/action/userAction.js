@@ -117,7 +117,7 @@ const updateUser = (user) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put(`http://localhost:7000/api/users/updateuser`, user, {
+    const { data } = await Axios.put("https://contactclub.vercel.app/api/users/updateuser", user, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
