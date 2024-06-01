@@ -140,7 +140,7 @@ const detailsUser = (userId) => async (dispatch, getState) => {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.get("https://contactclub.vercel.app/api/users/${userId}`, {
+    const { data } = await Axios.get("https://contactclub.vercel.app/api/users/${userId}", {
       headers: { Authorization: `Bearer ${userInfo?.token}` },
     });
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
