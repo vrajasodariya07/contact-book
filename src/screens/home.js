@@ -6,6 +6,7 @@ import '../Home.css';
 import { Container, Row, Col, Table } from 'react-bootstrap';
 import Header from '../Component/Header';
 import { Link } from 'react-router-dom';
+import Loader from '../Component/Loader';
 
 const HomePage = () => {
   const dispatch = useDispatch();
@@ -29,7 +30,7 @@ const HomePage = () => {
           <Col xs={6}>
             <h2 className="title">User List</h2>
             {loading || enumLoading ? (
-              <div>Loading...</div>
+              <Loader />
             ) : error ? (
               <div>{error}</div>
             ) : enumError ? (

@@ -3,7 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import '../style.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { signin } from '../action/userAction';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Login = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -19,10 +21,12 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo) {
-      console.log(userInfo);
       navigate(redirect);
     }
-  }, [navigate, userInfo, redirect]);
+    if (error) {
+      toast.error(error);
+    }
+  }, [navigate, userInfo, redirect, error]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,40 +34,45 @@ const Login = () => {
   };
 
   return (
-    <Container>
-      <Row className='justify-content-center'>
-        <Col xs={6}>
-          <div className="forms">
-            <h2 className="title py-3">Contact Book Login</h2>
-            <form onSubmit={handleSubmit}>
-              <label htmlFor="phoneNumber">Phone Number:</label>
-              <input
-                type="tel"
-                id="phoneNumber"
-                name="phoneNumber"
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.target.value)}
-                required
-                pattern="[0-9]{10}"
-                title="Please enter a valid 10-digit phone number"
-              />
+    <>
+      <Container>
+        <Row className='justify-content-center'>
+          <Col xs={6}>
+            <div className="forms">
+              <h2 className="title py-3">Contact Book Login</h2>
+              <form onSubmit={handleSubmit}>
+                <label htmlFor="phoneNumber">Phone Number:</label>
+                <input
+                  type="tel"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
+                  pattern="[0-9]{10}"
+                  title="Please enter a valid 10-digit phone number"
+                />
 
-              <label htmlFor="password">Password:</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+                <label htmlFor="password">Password:</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
 
-              <button type="submit" className='mt-3'>Login</button>
-            </form>
-          </div>
-        </Col>
-      </Row>
-    </Container>
+                <button type="submit" className='mt-3' disabled={loading}>
+                  {loading ? <Spinner animation="border" size="sm" /> : 'Login'}
+                </button>
+              </form>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+      <ToastContainer />
+    </>
   );
 };
 

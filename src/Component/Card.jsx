@@ -4,6 +4,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { listUsers } from '../action/userAction';
 import { useParams, Link } from 'react-router-dom';
+import Loader from './Loader';
 
 const Card = () => {
     const { name } = useParams();
@@ -24,7 +25,7 @@ const Card = () => {
             <Header />
             <Container>
                 {loading ? (
-                    <div>Loading...</div>
+                    <Loader />
                 ) : error ? (
                     <div>{error}</div>
                 ) : (

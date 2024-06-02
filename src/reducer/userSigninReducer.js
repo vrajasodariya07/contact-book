@@ -32,7 +32,8 @@ function userRegisterReducer(state = {}, action) {
       return { loading: false, userInfo: action.payload };
     case USER_REGISTER_FAIL:
       return { loading: false, error: action.payload };
-    default: return state;
+    default:
+      return state;
   }
 }
 function userEnumReducer(state = {}, action) {

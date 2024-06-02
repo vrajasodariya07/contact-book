@@ -76,24 +76,22 @@ const signin = (phoneNumber, password) => async (dispatch) => {
     });
   }
 }
-
 const register = (data) => async (dispatch) => {
   dispatch({ type: USER_REGISTER_REQUEST, payload: data });
-  console.log(data);
   try {
-    const { data2 } = await Axios.post("https://contactclub.vercel.app/api/users/signup", data);
-    //Cookie.set('userInfo', JSON.stringify(data));
-    dispatch({ type: USER_REGISTER_SUCCESS, payload: data2 });
-    // dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-    localStorage.setItem('userInfo', JSON.stringify(data2));
+    const { data: responseData } = await Axios.post("https://contactclub.vercel.app/api/users/signup", data);
+    dispatch({ type: USER_REGISTER_SUCCESS, payload: responseData });
+    // localStorage.setItem('userInfo', JSON.stringify(responseData));
   } catch (error) {
     dispatch({
-      type: USER_REGISTER_FAIL, payload: error.response && error.response.data.message
+      type: USER_REGISTER_FAIL,
+      payload: error.response && error.response.data.message
         ? error.response.data.message
         : error.message,
     });
   }
-}
+};
+
 
 const enum_data = () => async (dispatch, getState) => {
   dispatch({ type: USER_ENUM_REQUEST });
