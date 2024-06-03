@@ -1,36 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import Header from './Header';
 import { Col, Container, Row } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { listUsers, searchUsers } from '../action/userAction';
+import { listUsers } from '../action/userAction';
 import { useParams, Link } from 'react-router-dom';
 import Loader from './Loader';
+import Header from './Header';
 
 const Card = () => {
     const { name } = useParams();
     const dispatch = useDispatch();
+    
+    const [search, setSearch] = useState('');
 
     const userList = useSelector((state) => state.userList);
     const { loading, error, users } = userList;
 
-    const userSearch = useSelector((state) => state.userSearch);
-    const { searchData } = userSearch;
-
     useEffect(() => {
         dispatch(listUsers());
-        dispatch(searchUsers());
     }, [dispatch]);
 
     const data = users ? users.userList : [];
 
-    const filteredUsers = data.filter(user => user.community === name);
-
-    let [search, setsearch] = useState(null);
-    console.log(search);
+    const filteredUsers = data
+        .filter(user => user.community === name)
+        .filter(user => 
+            (user.givenName && user.givenName.toLowerCase().includes(search.toLowerCase())) ||
+            (user.occupation && user.occupation.toLowerCase().includes(search.toLowerCase()))
+        );
 
     return (
         <>
-            <Header setsearch={setsearch}/>
+            <Header setSearch={setSearch} />
             <Container>
                 {loading ? (
                     <Loader />

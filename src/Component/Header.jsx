@@ -1,15 +1,13 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { LinkContainer } from 'react-router-bootstrap';
-import { logout } from '../action/userAction'; // Ensure logout action is implemented
+import { logout } from '../action/userAction';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Header = (props) => {
+const Header = ({ setSearch }) => {
     const dispatch = useDispatch();
 
     const userSignin = useSelector((state) => state.userSignin);
@@ -18,10 +16,6 @@ const Header = (props) => {
     const logoutHandler = () => {
         dispatch(logout());
     };
-
-    
-
-    let search = props.setsearch;
 
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
@@ -32,12 +26,12 @@ const Header = (props) => {
                     <Nav className="me-auto my-2 my-lg-0" navbarScroll>
                         <Nav.Link href="/home">Home</Nav.Link>
                         <Nav.Link href="/">Register</Nav.Link>
+                        <Nav.Link href="/request">Request</Nav.Link>
                     </Nav>
                     <Nav className="ml-auto d-flex align-items-center">
                         <Nav.Link href="/profile">Profile</Nav.Link>
                         {userInfo ? (
                             <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
-
                         ) : (
                             <Nav.Link href="/login">Sign In</Nav.Link>
                         )}
@@ -47,9 +41,7 @@ const Header = (props) => {
                                 placeholder="Search"
                                 className="me-2"
                                 aria-label="Search"
-                                onChange={(e)=>{
-                                    search(e.target.value);
-                                }}
+                                onChange={(e) => setSearch(e.target.value)}
                             />
                             <Button variant="outline-success">Search</Button>
                         </Form>
@@ -60,4 +52,4 @@ const Header = (props) => {
     );
 };
 
-export default Header;
+export default Header;  

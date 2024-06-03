@@ -6,6 +6,7 @@ import HomePage from './screens/home';
 import Card from './Component/Card';
 import UserDetail from './Component/UserDetail';
 import Profile from './screens/Profile';
+import Request from './screens/Request';
 import Cookie from 'js-cookie';
 import { useEffect, useState } from 'react';
 
@@ -45,6 +46,7 @@ function App() {
               <Route path="/card/:name" element={<Card />} />
               <Route path="/user/:id" element={<UserDetail />} />
               <Route path="/profile" element={userInfo ? <Profile /> : <Navigate to="/login" />} />
+              <Route path="/request" element={<Request /> } />
             </Routes>
           </div>
         </div>

@@ -179,7 +179,7 @@ const searchUsers = (searchParams) => async (dispatch) => {
   try {
     dispatch({ type: USER_SEARCH_REQUEST });
 
-    const { data } = await Axios.get('https://localhost:7000/api/users/search', {
+    const { data } = await Axios.get('https://contactclub.vercel.app/api/users/search', {
       params: searchParams,
     });
 
