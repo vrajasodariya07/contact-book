@@ -20,7 +20,10 @@ import {
   USER_UPDATE_SUCCESS,
   USER_UPDATE_PROFILE_FAIL,
   USER_UPDATE_PROFILE_REQUEST,
-  USER_UPDATE_PROFILE_SUCCESS
+  USER_UPDATE_PROFILE_SUCCESS,
+  USER_SEARCH_REQUEST,
+  USER_SEARCH_SUCCESS,
+  USER_SEARCH_FAIL
 } from "../constants/userConstants";
 
 // const update = ({ userId, name, email, password }) => async (dispatch, getState) => {
@@ -172,6 +175,27 @@ const listUsers = () => async (dispatch, getState) => {
   }
 };
 
+const searchUsers = (searchParams) => async (dispatch) => {
+  try {
+    dispatch({ type: USER_SEARCH_REQUEST });
+
+    const { data } = await Axios.get('https://localhost:7000/api/users/search', {
+      params: searchParams,
+    });
+
+    dispatch({ type: USER_SEARCH_SUCCESS, payload: data });
+  } catch (error) {
+    dispatch({
+      type: USER_SEARCH_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+
 // const deleteUser = (userId) => async (dispatch, getState) => {
 //   dispatch({ type: USER_DELETE_REQUEST, payload: userId });
 //   const {
@@ -218,4 +242,4 @@ const logout = () => (dispatch) => {
 
 
 
-export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser };
+export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser,searchUsers };

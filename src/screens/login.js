@@ -7,7 +7,7 @@ import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
 
@@ -21,12 +21,13 @@ const Login = () => {
 
   useEffect(() => {
     if (userInfo) {
+      onLogin(userInfo);
       navigate(redirect);
     }
     if (error) {
       toast.error(error);
     }
-  }, [navigate, userInfo, redirect, error]);
+  }, [navigate, userInfo, redirect, error, onLogin]);
 
   const handleSubmit = (e) => {
     e.preventDefault();

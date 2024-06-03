@@ -9,7 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 
-const Header = () => {
+const Header = (props) => {
     const dispatch = useDispatch();
 
     const userSignin = useSelector((state) => state.userSignin);
@@ -19,6 +19,10 @@ const Header = () => {
         dispatch(logout());
     };
 
+    
+
+    let search = props.setsearch;
+
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container fluid>
@@ -27,7 +31,7 @@ const Header = () => {
                 <Navbar.Collapse id="navbarScroll">
                     <Nav className="me-auto my-2 my-lg-0" navbarScroll>
                         <Nav.Link href="/home">Home</Nav.Link>
-                        <Nav.Link href="/register">Register</Nav.Link>
+                        <Nav.Link href="/">Register</Nav.Link>
                     </Nav>
                     <Nav className="ml-auto d-flex align-items-center">
                         <Nav.Link href="/profile">Profile</Nav.Link>
@@ -43,6 +47,9 @@ const Header = () => {
                                 placeholder="Search"
                                 className="me-2"
                                 aria-label="Search"
+                                onChange={(e)=>{
+                                    search(e.target.value);
+                                }}
                             />
                             <Button variant="outline-success">Search</Button>
                         </Form>
