@@ -20,7 +20,7 @@ const UserDetail = () => {
 
     return (
         <>
-            <Header/>
+            {/* <Header/> */}
             <Container className="user-detail-container">
                 {loading ? (
                    <Loader/>

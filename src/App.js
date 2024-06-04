@@ -9,6 +9,7 @@ import Profile from './screens/Profile';
 import Request from './screens/Request';
 import Cookie from 'js-cookie';
 import { useEffect, useState } from 'react';
+import Index from './screens/Index';
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -39,19 +40,20 @@ function App() {
                 path="/"
                 element={userInfo ? <Navigate to="/home" /> : <RegistrationForm />}
               />
-              <Route
-                path="/home"
-                element={userInfo ? <HomePage /> : <Navigate to="/login" />}
-              />
-              <Route path="/card/:name" element={<Card />} />
-              <Route path="/user/:id" element={<UserDetail />} />
-              <Route path="/profile" element={userInfo ? <Profile /> : <Navigate to="/login" />} />
-              <Route path="/request" element={<Request /> } />
+              {/* <Route path="/home" element={userInfo ? <Index /> : <Navigate to="/login" />} > */}
+              <Route path="/home" element={<Index />}>
+                <Route path="" element={<HomePage />} />
+                <Route path="card/:name" element={<Card />} />
+                <Route path="user/:id" element={<UserDetail />} />
+                <Route path="profile" element={userInfo ? <Profile /> : <Navigate to="/login" />} />
+                <Route path="request" element={<Request />} />
+              </Route>
+
             </Routes>
           </div>
         </div>
       </div>
-    </BrowserRouter>
+    </BrowserRouter >
   );
 }
 

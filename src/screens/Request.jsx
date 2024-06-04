@@ -1,12 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { listUsers, updateUser } from '../action/userAction'; // Import updateUser action
+import { listUsers, updateUser } from '../action/userAction';
 import Header from '../Component/Header';
 import Loader from '../Component/Loader';
 import Button from 'react-bootstrap/Button';
+import { Container, Row, Col } from 'react-bootstrap';
 
 const Request = () => {
     const dispatch = useDispatch();
+    const [currentPage, setCurrentPage] = useState(1);
 
     // Get user list from Redux store
     const userList = useSelector((state) => state.userList);
@@ -20,10 +22,15 @@ const Request = () => {
     // Filter inactive users (isActive: false)
     const inactiveUsers = users?.userList?.filter(user => !user.isActive);
 
+    // Pagination
+    const itemsPerPage = 10;
+    const lastIndex = currentPage * itemsPerPage;
+    const firstIndex = lastIndex - itemsPerPage;
+    const currentInactiveUsers = inactiveUsers?.slice(firstIndex, lastIndex);
+
     // Handle approve action
     const handleApprove = (request) => {
         const updatedRequest = { ...request, isActive: true };
-        console.log(updatedRequest);
         dispatch(updateUser(updatedRequest));
     };
 
@@ -33,53 +40,79 @@ const Request = () => {
         dispatch(updateUser(updatedRequest));
     };
 
+    // Change page
+    const paginate = pageNumber => setCurrentPage(pageNumber);
+
     return (
         <>
-            <Header />
-            <section>
+            {/* <Header /> */}
+            <section className=''>
                 {loading ? (
                     <Loader />
                 ) : error ? (
                     <div>{error}</div>
                 ) : (
-                    <div className="container">
-                        <h2>Registration Requests</h2>
-                        <table className="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Given Name</th>
-                                    <th>Last Name</th>
-                                    <th>Middle Name</th>
-                                    <th>Occupation</th>
-                                    <th>Email</th>
-                                    <th>Phone Number</th>
-                                    <th>Native Place</th>
-                                    <th>Current Place</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {inactiveUsers?.map((request) => (
-                                    <tr key={request._id}>
-                                        <td>{request.givenName}</td>
-                                        <td>{request.lastName}</td>
-                                        <td>{request.middleName}</td>
-                                        <td>{request.occupation}</td>
-                                        <td>{request.email}</td>
-                                        <td>{request.phoneNumber}</td>
-                                        <td>{request.native}</td>
-                                        <td>{request.city}</td>
-                                        <td>
-                                            {/* Approve button */}
-                                            <Button variant="success" onClick={() => handleApprove(request)}>Approve</Button>
-                                            {/* Decline button */}
-                                            <Button variant="danger" onClick={() => handleDecline(request)}>Decline</Button>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
+                    <>
+                        <Row>
+                            <Col>
+                                <h2 className="mb-4 text-center">Registration Requests</h2>
+                            </Col>
+                        </Row>
+                        <Row className='justify-content-center'>
+                            <Col xs={11}>
+                                <div className='table-responsive'>
+                                    <table className="table table-striped border rounded">
+                                        <thead>
+                                            <tr>
+                                                <th>Given Name</th>
+                                                <th>Last Name</th>
+                                                <th>Middle Name</th>
+                                                <th>Occupation</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>Native Place</th>
+                                                <th>Current Place</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {currentInactiveUsers?.map((request) => (
+                                                <tr key={request._id}>
+                                                    <td>{request.givenName}</td>
+                                                    <td>{request.lastName}</td>
+                                                    <td>{request.middleName}</td>
+                                                    <td>{request.occupation}</td>
+                                                    <td>{request.email}</td>
+                                                    <td>{request.phoneNumber}</td>
+                                                    <td>{request.native}</td>
+                                                    <td>{request.city}</td>
+                                                    <td>
+                                                        {/* Approve button */}
+                                                        <Button variant="success" onClick={() => handleApprove(request)}>Approve</Button>
+                                                        {/* Decline button */}
+                                                        <Button variant="danger" onClick={() => handleDecline(request)}>Decline</Button>
+                                                    </td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </Col>
+                        </Row>
+                        <Row className="justify-content-center">
+                            <Col>
+                                <ul className="pagination">
+                                    {[...Array(Math.ceil(inactiveUsers.length / itemsPerPage)).keys()].map(number => (
+                                        <li key={number} className="page-item">
+                                            <a onClick={() => paginate(number + 1)} className="page-link">
+                                                {number + 1}
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </Col>
+                        </Row>
+                    </>
                 )}
             </section>
         </>

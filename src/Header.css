@@ -1,0 +1,35 @@
+.sidebar {
+    background-color: #1a1a2e; /* Dark background color */
+}
+
+.profile-section img {
+    border: 3px solid #fff;
+}
+
+.nav-link {
+    position: relative;
+    padding: 10px 15px;
+    border-radius: 8px;
+    transition: background-color 0.2s ease;
+}
+
+.nav-link .badge {
+    margin-left: auto;
+}
+
+.nav-link:hover, .nav-link.active-link {
+    background-color: #16213e;
+    color: #fff;
+}
+
+.nav-link.active-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background-color: #007bff; /* Blue highlight bar */
+    border-top-left-radius: 8px;
+    border-bottom-left-radius: 8px;
+}

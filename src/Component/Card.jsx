@@ -30,7 +30,7 @@ const Card = () => {
 
     return (
         <>
-            <Header setSearch={setSearch} />
+            {/* <Header setSearch={setSearch} /> */}
             <Container>
                 {loading ? (
                     <Loader />
@@ -39,13 +39,13 @@ const Card = () => {
                 ) : (
                     <Row>
                         {filteredUsers.map(user => (
-                            <Col xs={3} className='mb-2' key={user._id}>
+                            <Col xs={4} className='mb-3 ' key={user._id}>
                                 <div className="card" style={{ width: "100%" }}>
                                     <img src={require(`../images/demo-pic35.jpg`)} className="card-img-top" alt="..." />
                                     <div className="card-body">
                                         <h5 className="card-title">{user.givenName}</h5>
-                                        <p className="card-text">{user.occupation}</p>
-                                        <Link to={`/user/${user._id}`} className="btn btn-primary">View More</Link>
+                                        <p className="card-text">{user.occupation != '' ? user.occupation : "N/A"}</p>
+                                        <Link to={`/home/user/${user._id}`} className="btn btn-primary">View More</Link>
                                     </div>
                                 </div>
                             </Col>

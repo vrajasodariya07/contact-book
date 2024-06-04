@@ -71,7 +71,7 @@ const Profile = () => {
 
     return (
         <>
-            <Header />
+            {/* <Header /> */}
             <Container className="user-detail-container">
                 {loadingDetail ? (
                     <Loader />

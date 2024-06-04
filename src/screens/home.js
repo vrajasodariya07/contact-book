@@ -24,7 +24,7 @@ const HomePage = () => {
 
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <Row className='justify-content-center'>
           <Col xs={6}>
@@ -48,7 +48,7 @@ const HomePage = () => {
                     <tr key={index}>
                       <td>{index + 1}</td>
                       <td>
-                        <Link to={`/card/${community}`}>
+                        <Link to={`/home/card/${community}`}>
                           {community}
                         </Link>
                       </td>
