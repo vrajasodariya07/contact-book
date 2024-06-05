@@ -1,13 +1,13 @@
 .loader-container {
-    /* display: flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;   
-    top: 40%; */
+    /* top: 40%;
     position: fixed;
     top: 40%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%); */
 }
 
 .loader {

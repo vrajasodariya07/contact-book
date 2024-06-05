@@ -23,7 +23,7 @@ const Request = () => {
     const inactiveUsers = users?.userList?.filter(user => !user.isActive);
 
     // Pagination
-    const itemsPerPage = 10;
+    const itemsPerPage = 6;
     const lastIndex = currentPage * itemsPerPage;
     const firstIndex = lastIndex - itemsPerPage;
     const currentInactiveUsers = inactiveUsers?.slice(firstIndex, lastIndex);
@@ -71,7 +71,7 @@ const Request = () => {
                                                 <th>Email</th>
                                                 <th>Phone Number</th>
                                                 <th>Native Place</th>
-                                                <th>Current Place</th>
+                                                <th>Community</th>
                                                 <th>Actions</th>
                                             </tr>
                                         </thead>
@@ -85,7 +85,7 @@ const Request = () => {
                                                     <td>{request.email}</td>
                                                     <td>{request.phoneNumber}</td>
                                                     <td>{request.native}</td>
-                                                    <td>{request.city}</td>
+                                                    <td>{request.community}</td>
                                                     <td>
                                                         {/* Approve button */}
                                                         <Button variant="success" onClick={() => handleApprove(request)}>Approve</Button>
@@ -101,7 +101,7 @@ const Request = () => {
                         </Row>
                         <Row className="justify-content-center">
                             <Col>
-                                <ul className="pagination">
+                                <ul className="pagination justify-content-center">
                                     {[...Array(Math.ceil(inactiveUsers.length / itemsPerPage)).keys()].map(number => (
                                         <li key={number} className="page-item">
                                             <a onClick={() => paginate(number + 1)} className="page-link">
