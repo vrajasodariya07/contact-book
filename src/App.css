@@ -1,0 +1,82 @@
+body, html {
+    height: 100%;
+    margin: 0;
+  }
+  
+  .register-bg {
+    /* background: url('/path-to-your-background-image.jpg') no-repeat center center fixed; */
+    background-size: cover;
+    min-height: 100vh;
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .form-container {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+  
+  .google-sign-in {
+    display: block;
+    width: 100%;
+    background: #4285f4;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+  }
+  
+  .separator {
+    text-align: center;
+    margin: 1rem 0;
+    font-size: 0.875rem;
+    color: #aaa;
+  }
+  
+  .form-group {
+    margin-bottom: 1rem;
+  }
+  
+  .form-group input, .form-group select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  
+  .checkbox-group {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+  }
+  
+  .checkbox-group input {
+    margin-right: 0.5rem;
+  }
+  

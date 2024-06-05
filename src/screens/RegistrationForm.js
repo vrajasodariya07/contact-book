@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import '../style.css';
+import '../App.css';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
 import { enum_data, register } from '../action/userAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -60,7 +60,7 @@ const RegistrationForm = () => {
         middleName,
         lastName,
         community,
-        city, 
+        city,
         native,
         gender,
         birthDate,
@@ -74,189 +74,230 @@ const RegistrationForm = () => {
 
   return (
     <>
-      <Container>
-        <Row className='justify-content-center'>
-          <Col xs={6}>
-            <div className="forms">
-              <h2 className="title py-3">Contact Book Registration</h2>
+      <Container className="register-bg">
+        <Row className="justify-content-center align-items-center">
+          <Col xs={8}>
+            <div className="form-container">
+              <h2 className="title py-3 text-center">Create Account</h2>
+              <p className="text-center">Already have an account? <Link to="/login">Sign in</Link></p>
+              <div className="separator">or</div>
               <form onSubmit={submitHandler}>
-                <label htmlFor="givenName">First Name:</label>
-                <input
-                  type="text"
-                  id="givenName"
-                  name="givenName"
-                  value={givenName}
-                  onChange={(e) => setGivenName(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="middleName">Middle Name:</label>
-                <input
-                  type="text"
-                  id="middleName"
-                  name="middleName"
-                  value={middleName}
-                  onChange={(e) => setMiddleName(e.target.value)}
-                />
-
-                <label htmlFor="lastName">Last Name:</label>
-                <input
-                  type="text"
-                  id="lastName"
-                  name="lastName"
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="community">Community:</label>
-                <select
-                  id="community"
-                  name="community"
-                  value={community}
-                  onChange={(e) => setCommunity(e.target.value)}
-                  required
-                >
-                  <option value="">Select Community</option>
-                  {!enumLoading && data && data.community && data.community.length > 0 ? (
-                    data.community.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))
-                  ) : (
-                    <option value="" disabled>Loading...</option>
-                  )}
-                </select>
-
-                <label htmlFor="currentcity">Current City:</label> 
-                <input
-                  type="text"
-                  id="city"
-                  name="city"
-                  value={city}
-                  onChange={(e) => setCity(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="native">Native Place:</label>
-                <input
-                  type="text"
-                  id="native"
-                  name="native"
-                  value={native}
-                  onChange={(e) => setNative(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="gender">Gender:</label>
-                <select
-                  id="gender"
-                  name="gender"
-                  value={gender}
-                  onChange={(e) => setGender(e.target.value)}
-                  required
-                >
-                  <option value="">Select Gender</option>
-                  {!enumLoading && data && data.gender && data.gender.length > 0 ? (
-                    data.gender.map((g) => (
-                      <option key={g} value={g}>{g}</option>
-                    ))
-                  ) : (
-                    <option value="" disabled>Loading...</option>
-                  )}
-                </select>
-
-                <label htmlFor="birthDate">Birth Date:</label>
-                <input
-                  type="date"
-                  id="birthDate"
-                  name="birthDate"
-                  value={birthDate}
-                  onChange={(e) => setBirthDate(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="maritalStatus">Marital Status:</label>
-                <select
-                  id="maritalStatus"
-                  name="maritalStatus"
-                  value={maritalStatus}
-                  onChange={(e) => setMaritalStatus(e.target.value)}
-                  required
-                >
-                  <option value="">Select Status</option>
-                  {!enumLoading && data && data.maritalStatus && data.maritalStatus.length > 0 ? (
-                    data.maritalStatus.map((status) => (
-                      <option key={status} value={status}>{status}</option>
-                    ))
-                  ) : (
-                    <option value="" disabled>Loading...</option>
-                  )}
-                </select>
-
-                <label htmlFor="occupation">Occupation:</label>
-                <input
-                  type="text"
-                  id="occupation"
-                  name="occupation"
-                  value={occupation}
-                  onChange={(e) => setOccupation(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="email">Email:</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="phoneNumber">Phone Number:</label>
-                <input
-                  type="tel"
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  required
-                  pattern="[0-9]{10}"
-                  title="Please enter a valid 10-digit phone number"
-                />
-
-                <label htmlFor="password">Password:</label>
-                <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-
-                <label htmlFor="rePassword">Confirm Password:</label>
-                <input
-                  type="password"
-                  id="rePassword"
-                  name="rePassword"
-                  value={rePassword}
-                  onChange={(e) => setRePassword(e.target.value)}
-                  required
-                />
-
-                <button type="submit" className='mt-3' disabled={registerLoading}>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="givenName"
+                        name="givenName"
+                        placeholder="First Name"
+                        value={givenName}
+                        onChange={(e) => setGivenName(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="middleName"
+                        name="middleName"
+                        placeholder="Middle Name"
+                        value={middleName}
+                        onChange={(e) => setMiddleName(e.target.value)}
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="lastName"
+                        name="lastName"
+                        placeholder="Last Name"
+                        value={lastName}
+                        onChange={(e) => setLastName(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="tel"
+                        id="phoneNumber"
+                        name="phoneNumber"
+                        placeholder="Phone Number"
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        required
+                        pattern="[0-9]{10}"
+                        title="Please enter a valid 10-digit phone number"
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <div className="form-group">
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <select
+                    id="community"
+                    name="community"
+                    value={community}
+                    onChange={(e) => setCommunity(e.target.value)}
+                    required
+                  >
+                    <option value="">Select Community</option>
+                    {!enumLoading && data && data.community && data.community.length > 0 ? (
+                      data.community.map((c) => (
+                        <option key={c} value={c}>{c}</option>
+                      ))
+                    ) : (
+                      <option value="" disabled>Loading...</option>
+                    )}
+                  </select>
+                </div>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="city"
+                        name="city"
+                        placeholder="Current City"
+                        value={city}
+                        onChange={(e) => setCity(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="native"
+                        name="native"
+                        placeholder="Native Place"
+                        value={native}
+                        onChange={(e) => setNative(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <select
+                        id="gender"
+                        name="gender"
+                        value={gender}
+                        onChange={(e) => setGender(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Gender</option>
+                        {!enumLoading && data && data.gender && data.gender.length > 0 ? (
+                          data.gender.map((g) => (
+                            <option key={g} value={g}>{g}</option>
+                          ))
+                        ) : (
+                          <option value="" disabled>Loading...</option>
+                        )}
+                      </select>
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="date"
+                        id="birthDate"
+                        name="birthDate"
+                        value={birthDate}
+                        onChange={(e) => setBirthDate(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <select
+                        id="maritalStatus"
+                        name="maritalStatus"
+                        value={maritalStatus}
+                        onChange={(e) => setMaritalStatus(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Status</option>
+                        {!enumLoading && data && data.maritalStatus && data.maritalStatus.length > 0 ? (
+                          data.maritalStatus.map((status) => (
+                            <option key={status} value={status}>{status}</option>
+                          ))
+                        ) : (
+                          <option value="" disabled>Loading...</option>
+                        )}
+                      </select>
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="text"
+                        id="occupation"
+                        name="occupation"
+                        placeholder="Occupation"
+                        value={occupation}
+                        onChange={(e) => setOccupation(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="password"
+                        id="rePassword"
+                        name="rePassword"
+                        placeholder="Confirm Password"
+                        value={rePassword}
+                        onChange={(e) => setRePassword(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                </Row>
+                
+                <button type="submit" className="submit-btn">
                   {registerLoading ? <Spinner animation="border" size="sm" /> : 'Register'}
                 </button>
               </form>
-            </div>
-          </Col>
-        </Row>
-        <Row className='justify-content-center'>
-          <Col xs={6}>
-            <div className='mt-3'>
-              Already have an account?{' '}
-              <Link to="/login">Sign-In</Link>
             </div>
           </Col>
         </Row>
