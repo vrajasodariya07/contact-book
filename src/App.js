@@ -40,8 +40,7 @@ function App() {
                 path="/"
                 element={userInfo ? <Navigate to="/home" /> : <RegistrationForm />}
               />
-              {/* <Route path="/home" element={userInfo ? <Index /> : <Navigate to="/login" />} > */}
-              <Route path="/home" element={<Index />}>
+              <Route path="/home" element={userInfo ? <Index /> : <Navigate to="/login" />} >
                 <Route path="" element={<HomePage />} />
                 <Route path="card/:name" element={<Card />} />
                 <Route path="user/:id" element={<UserDetail />} />

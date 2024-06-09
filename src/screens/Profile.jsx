@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../userDetail.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { userSignin, updateUser, detailsUser, enum_data } from '../action/userAction'; // Make sure these actions are created
+import { detailsUser, enum_data, updateProfile } from '../action/userAction';
 import { Container, Row, Col, Image, Button, Modal, Form } from 'react-bootstrap';
 import Loader from '../Component/Loader';
 import Header from '../Component/Header';
@@ -21,8 +21,8 @@ const Profile = () => {
     const userDetail = useSelector((state) => state.userDetail);
     const { loading: loadingDetail, error, users } = userDetail;
 
-    const userUpdate = useSelector((state) => state.userUpdate);
-    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdate;
+    const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userProfileUpdate;
 
     const userEnum = useSelector((state) => state.userEnum);
     const { data, loading: enumLoading, error: enumError } = userEnum;
@@ -53,14 +53,13 @@ const Profile = () => {
     };
 
     const handleSave = () => {
-        console.log(formData);
         const updatedUser = {
             ...users,
             maritalStatus: formData.maritalStatus,
             city: formData.city,
             occupation: formData.occupation,
         };
-        dispatch(updateUser(updatedUser));
+        dispatch(updateProfile(updatedUser));
         setShowModal(false);
     };
 
@@ -71,7 +70,6 @@ const Profile = () => {
 
     return (
         <>
-            {/* <Header /> */}
             <Container className="user-detail-container">
                 {loadingDetail ? (
                     <Loader />

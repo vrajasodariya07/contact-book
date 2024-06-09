@@ -1,4 +1,4 @@
-import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_RESET, USER_DETAILS_SUCCESS, USER_ENUM_FAIL, USER_ENUM_REQUEST, USER_ENUM_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SEARCH_FAIL, USER_SEARCH_REQUEST, USER_SEARCH_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_RESET, USER_UPDATE_PROFILE_SUCCESS } from "../constants/userConstants";
+import { USER_DETAILS_FAIL, USER_DETAILS_REQUEST, USER_DETAILS_RESET, USER_DETAILS_SUCCESS, USER_ENUM_FAIL, USER_ENUM_REQUEST, USER_ENUM_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_LOGOUT, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SEARCH_FAIL, USER_SEARCH_REQUEST, USER_SEARCH_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_PROFILE_FAIL, USER_UPDATE_PROFILE_REQUEST, USER_UPDATE_PROFILE_RESET, USER_UPDATE_PROFILE_SUCCESS, USER_UPDATE_REQUEST, USER_UPDATE_RESET, USER_UPDATE_SUCCESS } from "../constants/userConstants";
 
 function userSigninReducer(state = {}, action) {
   switch (action.type) {
@@ -85,6 +85,21 @@ const userUpdateProfileReducer = (state = {}, action) => {
   }
 };
 
+const userUpdateReducer = (state = {}, action) => {
+  switch (action.type) {
+      case USER_UPDATE_REQUEST:
+          return { loading: true };
+      case USER_UPDATE_SUCCESS:
+          return { loading: false, success: true, userInfo: action.payload };
+      case USER_UPDATE_FAIL:
+          return { loading: false, error: action.payload };
+      case USER_UPDATE_RESET:
+          return {};
+      default:
+          return state;
+  }
+};
+
 
 const userSearchReducer = (state = { users: [] }, action) => {
   switch (action.type) {
@@ -100,4 +115,4 @@ const userSearchReducer = (state = { users: [] }, action) => {
 };
 
 
-export { userSigninReducer, userListReducer, userRegisterReducer, userEnumReducer, userLogoutReducer, userDetailsReducer, userUpdateProfileReducer,userSearchReducer }
+export { userSigninReducer, userListReducer, userRegisterReducer, userEnumReducer, userLogoutReducer, userDetailsReducer, userUpdateProfileReducer,userSearchReducer,userUpdateReducer }

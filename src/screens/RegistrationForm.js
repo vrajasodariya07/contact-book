@@ -293,10 +293,12 @@ const RegistrationForm = () => {
                     </div>
                   </Col>
                 </Row>
-                
-                <button type="submit" className="submit-btn">
-                  {registerLoading ? <Spinner animation="border" size="sm" /> : 'Register'}
-                </button>
+
+                <div className='d-flex justify-content-center mt-3'>
+                  <button type="submit" className="submit-btn">
+                    {registerLoading ? <Spinner animation="border" size="sm" /> : 'Register'}
+                  </button>
+                </div>
               </form>
             </div>
           </Col>

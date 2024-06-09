@@ -6,6 +6,7 @@ import { detailsUser, enum_data, listUsers, updateUser } from '../action/userAct
 import { USER_UPDATE_RESET } from '../constants/userConstants';
 import { Container, Row, Col, Image, Button, Modal, Form } from 'react-bootstrap';
 import Loader from './Loader';
+import { Spinner } from 'react-bootstrap';
 
 const UserDetail = () => {
     const { id } = useParams();
@@ -21,7 +22,7 @@ const UserDetail = () => {
     const { users: loggedInUser } = userList;
 
     const userUpdate = useSelector((state) => state.userUpdate);
-    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdate;
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdate || {}; // Add fallback
 
     const userEnum = useSelector((state) => state.userEnum);
     const { data: enumData, loading: enumLoading, error: enumError } = userEnum;
@@ -30,6 +31,7 @@ const UserDetail = () => {
         if (successUpdate) {
             dispatch({ type: USER_UPDATE_RESET });
             dispatch(detailsUser(id));
+            setShowModal(false);
         } else {
             if (!users || users._id !== id) {
                 dispatch(detailsUser(id));
@@ -72,7 +74,6 @@ const UserDetail = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         dispatch(updateUser(id, formData));
-        setShowModal(false);
     };
 
     return (
@@ -302,8 +303,8 @@ const UserDetail = () => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Button variant="primary" type="submit" className="mt-3">
-                            Save Changes
+                        <Button variant="primary" type="submit" className="mt-3" disabled={loadingUpdate}>
+                            {loadingUpdate ? <Spinner animation="border" size="sm" role="status" aria-hidden="true" /> : 'Save Changes'}
                         </Button>
                     </Form>
                 </Modal.Body>

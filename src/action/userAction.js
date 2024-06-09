@@ -23,7 +23,8 @@ import {
   USER_UPDATE_PROFILE_SUCCESS,
   USER_SEARCH_REQUEST,
   USER_SEARCH_SUCCESS,
-  USER_SEARCH_FAIL
+  USER_SEARCH_FAIL,
+  USER_UPDATE_FAIL
 } from "../constants/userConstants";
 
 // const update = ({ userId, name, email, password }) => async (dispatch, getState) => {
@@ -112,13 +113,13 @@ const enum_data = () => async (dispatch, getState) => {
   }
 }
 
-const updateUser = (user) => async (dispatch, getState) => {
+const updateProfile = (user) => async (dispatch, getState) => {
   dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
   const {
     userSignin: { userInfo },
   } = getState();
   try {
-    const { data } = await Axios.put("https://contactclub.vercel.app/api/users/updateuser", user, {
+    const { data } = await Axios.put("https://contactclub.vercel.app/api/users/updateprofile", user, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });
     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
@@ -132,6 +133,8 @@ const updateUser = (user) => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
   }
 };
+
+
 
 
 const detailsUser = (userId) => async (dispatch, getState) => {
@@ -195,6 +198,32 @@ const searchUsers = (searchParams) => async (dispatch) => {
   }
 };
 
+const updateUser = (userData) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: USER_UPDATE_REQUEST });
+    const {
+      userSignin: { userInfo },
+    } = getState();
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+    const { data } = await Axios.put(`https://contactclub.vercel.app/api/users/updatedata`, userData, config);
+    dispatch({
+      type: USER_UPDATE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: USER_UPDATE_FAIL,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
+  }
+};
 
 // const deleteUser = (userId) => async (dispatch, getState) => {
 //   dispatch({ type: USER_DELETE_REQUEST, payload: userId });
@@ -242,4 +271,4 @@ const logout = () => (dispatch) => {
 
 
 
-export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser,searchUsers };
+export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser, updateProfile, searchUsers };

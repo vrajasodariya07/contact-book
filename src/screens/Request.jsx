@@ -1,23 +1,23 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listUsers, updateUser } from '../action/userAction';
-import Header from '../Component/Header';
 import Loader from '../Component/Loader';
 import Button from 'react-bootstrap/Button';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
 const Request = () => {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
+    const [refresh, setRefresh] = useState(false); // Add a state to trigger re-fetch
 
     // Get user list from Redux store
     const userList = useSelector((state) => state.userList);
     const { loading, error, users } = userList;
 
-    // Dispatch action to fetch user list on component mount
+    // Dispatch action to fetch user list on component mount and refresh
     useEffect(() => {
         dispatch(listUsers());
-    }, [dispatch]);
+    }, [dispatch, refresh]); // Add refresh to dependency array
 
     // Filter inactive users (isActive: false)
     const inactiveUsers = users?.userList?.filter(user => !user.isActive);
@@ -32,12 +32,14 @@ const Request = () => {
     const handleApprove = (request) => {
         const updatedRequest = { ...request, isActive: true };
         dispatch(updateUser(updatedRequest));
+        setRefresh(!refresh); // Toggle refresh state to trigger re-fetch
     };
 
     // Handle decline action
     const handleDecline = (request) => {
         const updatedRequest = { ...request, isActive: false };
         dispatch(updateUser(updatedRequest));
+        setRefresh(!refresh); // Toggle refresh state to trigger re-fetch
     };
 
     // Change page
@@ -45,7 +47,6 @@ const Request = () => {
 
     return (
         <>
-            {/* <Header /> */}
             <section className=''>
                 {loading ? (
                     <Loader />
