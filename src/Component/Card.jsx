@@ -21,7 +21,7 @@ const Card = () => {
   const data = users ? users.userList : [];
 
   const filteredUsers = data
-    .filter(user => user.community === name)
+    .filter(user => user.community === name && user.isActive) // Add the isActive filter here
     .filter(user =>
       (user.givenName && user.givenName.toLowerCase().includes(search.toLowerCase())) ||
       (user.middleName && user.middleName.toLowerCase().includes(search.toLowerCase())) ||

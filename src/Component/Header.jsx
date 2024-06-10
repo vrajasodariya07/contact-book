@@ -11,8 +11,8 @@ import { Row, Col } from 'react-bootstrap';
 const Header = ({ setSearch }) => {
   const dispatch = useDispatch();
 
-  const userSignin = useSelector((state) => state.userSignin);
-  const { userInfo } = userSignin;
+  const userList = useSelector((state) => state.userList);
+  const { users } = userList;
 
   const logoutHandler = () => {
     dispatch(logout());
@@ -34,7 +34,7 @@ const Header = ({ setSearch }) => {
                 placeholder="Search"
                 className="mb-2"
                 aria-label="Search"
-                onChange={(e) =>{console.log(e.target.value); setSearch(e.target.value)}}
+                onChange={(e) => { console.log(e.target.value); setSearch(e.target.value); }}
               />
               <Button variant="outline-light" block>Search</Button>
             </Form>
@@ -42,13 +42,15 @@ const Header = ({ setSearch }) => {
               <Link className='nav-link text-light d-flex align-items-center mb-2 active-link' to="/home">
                 <FaHome className="me-2" />Home
               </Link>
-              <Link className='nav-link text-light d-flex align-items-center mb-2' to="/home/request">
-                <FaBell className="me-2" />Request <span className="badge bg-primary ms-auto">32</span>
-              </Link>
+              {users && users?.loggedInUser?.isAdmin && (
+                <Link className='nav-link text-light d-flex align-items-center mb-2' to="/home/request">
+                  <FaBell className="me-2" />Request <span className="badge bg-primary ms-auto">32</span>
+                </Link>
+              )}
               <Link className='nav-link text-light d-flex align-items-center mb-2' to="/home/profile">
                 <FaEnvelopeOpenText className="me-2" />Profile <span className="badge bg-secondary ms-auto">9</span>
               </Link>
-              {userInfo ? (
+              {users ? (
                 <Link to="#" onClick={logoutHandler} className="nav-link text-light d-flex align-items-center mb-2">
                   <FaSignOutAlt className="me-2" />Logout
                 </Link>
