@@ -26,6 +26,7 @@ import {
   USER_SEARCH_FAIL,
   USER_UPDATE_FAIL
 } from "../constants/userConstants";
+import { logout as authLogout } from '../auth';
 
 // const update = ({ userId, name, email, password }) => async (dispatch, getState) => {
 //   const { userSignin: { userInfo } } = getState();
@@ -264,6 +265,7 @@ const updateUser = (userData) => async (dispatch, getState) => {
 
 
 const logout = () => (dispatch) => {
+  authLogout();
   Cookie.remove("userInfo");
   dispatch({ type: USER_LOGOUT });
   document.location.href = '/';

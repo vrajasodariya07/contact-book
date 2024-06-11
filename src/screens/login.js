@@ -1,3 +1,5 @@
+// Login.js
+
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +22,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Spinner } from 'react-bootstrap';
+import { storeToken } from '../auth'; // Import storeToken function
 
 const defaultTheme = createTheme();
 
@@ -51,9 +54,8 @@ const Login = ({ onLogin }) => {
   useEffect(() => {
     if (userInfo) {
       onLogin(userInfo);
+      storeToken(userInfo.token); // Store the token
       navigate(redirect);
-    } else {
-      console.log('No user info, not redirecting.');
     }
     if (error) {
       toast.error(error);
