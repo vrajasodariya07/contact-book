@@ -9,10 +9,10 @@ const Index = () => {
   return (
     <>
       <Row className='g-0'>
-        <Col xs={2}>
+        <Col md={3} xl={2}>
           <Header setSearch={setSearch} />
         </Col>
-        <Col xs={10} className='overflow-x-hidden'>
+        <Col md={9} xl={10} className='overflow-x-hidden'>
           <Outlet context={{ search }} />
         </Col>
       </Row>

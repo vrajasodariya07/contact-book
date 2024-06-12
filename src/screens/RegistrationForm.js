@@ -76,10 +76,10 @@ const RegistrationForm = () => {
     <>
       <Container className="register-bg">
         <Row className="justify-content-center align-items-center">
-          <Col xs={8}>
+          <Col xs={12} md={8}>
             <div className="form-container">
               <h2 className="title py-3 text-center">Create Account</h2>
-              <p className="text-center">Already have an account? <Link to="/login">Sign in</Link></p>
+              <p className="text-center">Already have an account? <Link to="/">Sign in</Link></p>
               <div className="separator">or</div>
               <form onSubmit={submitHandler}>
                 <Row>

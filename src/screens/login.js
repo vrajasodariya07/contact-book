@@ -1,5 +1,3 @@
-// Login.js
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +21,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Spinner } from 'react-bootstrap';
 import { storeToken } from '../auth'; // Import storeToken function
+import backgroundImage from '../../src/images/46.jpg'; // Import the background image
 
 const defaultTheme = createTheme();
 
@@ -81,7 +80,7 @@ const Login = ({ onLogin }) => {
           sm={4}
           md={7}
           sx={{
-            backgroundImage: 'url(https://source.unsplash.com/random?wallpapers)',
+            backgroundImage: `url(${backgroundImage})`,
             backgroundRepeat: 'no-repeat',
             backgroundColor: (t) =>
               t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
@@ -154,7 +153,7 @@ const Login = ({ onLogin }) => {
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/" variant="body2" onClick={handleSignUp}>
+                  <Link href="/register" variant="body2" onClick={handleSignUp}>
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

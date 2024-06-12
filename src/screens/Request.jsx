@@ -66,8 +66,8 @@ const Request = () => {
                                         <thead>
                                             <tr>
                                                 <th>Given Name</th>
-                                                <th>Last Name</th>
                                                 <th>Middle Name</th>
+                                                <th>Last Name</th>
                                                 <th>Occupation</th>
                                                 <th>Email</th>
                                                 <th>Phone Number</th>
@@ -80,8 +80,8 @@ const Request = () => {
                                             {currentInactiveUsers?.map((request) => (
                                                 <tr key={request._id}>
                                                     <td>{request.givenName}</td>
-                                                    <td>{request.lastName}</td>
                                                     <td>{request.middleName}</td>
+                                                    <td>{request.lastName}</td>
                                                     <td>{request.occupation}</td>
                                                     <td>{request.email}</td>
                                                     <td>{request.phoneNumber}</td>

@@ -29,7 +29,7 @@ function App() {
         logout();
         Cookie.remove('userInfo');
         setUserInfo(null);
-        window.location.href = '/login'; // Redirect to login page
+        window.location.href = '/'; // Redirect to login page
       }
     }, 60000); // Check every minute
 
