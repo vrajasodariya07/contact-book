@@ -22,6 +22,7 @@ const RegistrationForm = () => {
   const [maritalStatus, setMaritalStatus] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [occupation, setOccupation] = useState('');
+  const [profileImage, setProfileImage] = useState(null);
 
   const userRegister = useSelector((state) => state.userRegister);
   const { loading: registerLoading, userInfo, error: registerError } = userRegister;
@@ -48,27 +49,34 @@ const RegistrationForm = () => {
     dispatch(enum_data());
   }, [dispatch]);
 
+  const handleImageUpload = (e) => {
+    setProfileImage(e.target.files[0]);
+  };
+
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== rePassword) {
       toast.error('Password and confirm password do not match');
     } else {
-      const data = {
-        email,
-        password,
-        givenName,
-        middleName,
-        lastName,
-        community,
-        city,
-        native,
-        gender,
-        birthDate,
-        maritalStatus,
-        phoneNumber,
-        occupation,
-      };
-      dispatch(register(data));
+      const formData = new FormData();
+      formData.append('email', email);
+      formData.append('password', password);
+      formData.append('givenName', givenName);
+      formData.append('middleName', middleName);
+      formData.append('lastName', lastName);
+      formData.append('community', community);
+      formData.append('city', city);
+      formData.append('native', native);
+      formData.append('gender', gender);
+      formData.append('birthDate', birthDate);
+      formData.append('maritalStatus', maritalStatus);
+      formData.append('phoneNumber', phoneNumber);
+      formData.append('occupation', occupation);
+      if (profileImage) {
+        formData.append('profileImage', profileImage);
+      }
+
+      dispatch(register(formData));
     }
   };
 
@@ -139,35 +147,41 @@ const RegistrationForm = () => {
                     </div>
                   </Col>
                 </Row>
-                <div className="form-group">
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="form-group">
-                  <select
-                    id="community"
-                    name="community"
-                    value={community}
-                    onChange={(e) => setCommunity(e.target.value)}
-                    required
-                  >
-                    <option value="">Select Community</option>
-                    {!enumLoading && data && data.community && data.community.length > 0 ? (
-                      data.community.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                      ))
-                    ) : (
-                      <option value="" disabled>Loading...</option>
-                    )}
-                  </select>
-                </div>
+                <Row>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                      />
+                    </div>
+                  </Col>
+                  <Col md={6}>
+                    <div className="form-group">
+                      <select
+                        id="community"
+                        name="community"
+                        value={community}
+                        onChange={(e) => setCommunity(e.target.value)}
+                        required
+                      >
+                        <option value="">Select Community</option>
+                        {!enumLoading && data && data.community && data.community.length > 0 ? (
+                          data.community.map((c) => (
+                            <option key={c} value={c}>{c}</option>
+                          ))
+                        ) : (
+                          <option value="" disabled>Loading...</option>
+                        )}
+                      </select>
+                    </div>
+                  </Col>
+                </Row>
                 <Row>
                   <Col md={6}>
                     <div className="form-group">
@@ -293,6 +307,18 @@ const RegistrationForm = () => {
                     </div>
                   </Col>
                 </Row>
+
+                <div className="form-group">
+                  <label htmlFor="profileImage">Profile Image</label>
+                  <input
+                    type="file"
+                    id="profileImage"
+                    name="profileImage"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                  />
+                  {profileImage && <img src={URL.createObjectURL(profileImage)} alt="Profile" style={{ width: '100px', marginTop: '10px' }} />}
+                </div>
 
                 <div className='d-flex justify-content-center mt-3'>
                   <button type="submit" className="submit-btn">

@@ -4,9 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { detailsUser, enum_data, listUsers, updateUser } from '../action/userAction';
 import { USER_UPDATE_RESET } from '../constants/userConstants';
-import { Container, Row, Col, Image, Button, Modal, Form } from 'react-bootstrap';
+import { Container, Row, Col, Image, Button, Modal, Form, Spinner } from 'react-bootstrap';
 import Loader from './Loader';
-import { Spinner } from 'react-bootstrap';
 
 const UserDetail = () => {
     const { id } = useParams();
@@ -84,48 +83,55 @@ const UserDetail = () => {
                 ) : error ? (
                     <div className="error">{error}</div>
                 ) : (
-                    <>
-                        <Row className="my-4">
-                            <Col md={6} className="user-detail-image">
-                                <Image src={require('../images/demo-pic35.jpg')} fluid rounded />
-                            </Col>
-                            <Col md={6} className="user-detail-info">
-                                <h1 className="user-detail-header">
-                                    {users?.givenName} {users?.middleName} {users?.lastName}
-                                </h1>
-                                <p>
-                                    <strong>Email:</strong> {users?.email || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Number:</strong> {users?.phoneNumber || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Community:</strong> {users?.community || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Current City:</strong> {users?.city || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Native:</strong> {users?.native || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Gender:</strong> {users?.gender || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Marital Status:</strong> {users?.maritalStatus || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Date Of Birth:</strong> {users?.birthDate || 'N/A'}
-                                </p>
-                                <p>
-                                    <strong>Occupation:</strong> {users?.occupation || 'N/A'}
-                                </p>
-                                {loggedInUser && loggedInUser.loggedInUser && loggedInUser.loggedInUser.isAdmin && (
-                                    <Button variant="primary" onClick={handleEditClick}>Edit</Button>
-                                )}
-                            </Col>
-                        </Row>
-                    </>
+                    <div className="user-detail-card">
+                        <div className="user-detail-image">
+                            <Image src={require('../images/demo-pic35.jpg')} fluid rounded />
+                        </div>
+                        <div className="user-detail-info">
+                            <h1 className="user-detail-header">
+                                {users?.givenName} {users?.middleName} {users?.lastName}
+                            </h1>
+                            <p>
+                                <strong>First Name:</strong> {users?.givenName || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Middle Name:</strong> {users?.middleName || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Last Name:</strong> {users?.lastName || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Email:</strong> {users?.email || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Phone Number:</strong> {users?.phoneNumber || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Community:</strong> {users?.community || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Current City:</strong> {users?.city || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Native:</strong> {users?.native || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Gender:</strong> {users?.gender || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Marital Status:</strong> {users?.maritalStatus || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Date Of Birth:</strong> {users?.birthDate || 'N/A'}
+                            </p>
+                            <p>
+                                <strong>Occupation:</strong> {users?.occupation || 'N/A'}
+                            </p>
+                            {loggedInUser && loggedInUser.loggedInUser && loggedInUser.loggedInUser.isAdmin && (
+                                <Button variant="primary" onClick={handleEditClick}>Edit</Button>
+                            )}
+                        </div>
+                    </div>
                 )}
             </Container>
 
@@ -282,7 +288,7 @@ const UserDetail = () => {
                         <Row>
                             <Col md={6}>
                                 <Form.Group controlId="formBirthDate">
-                                    <Form.Label>Date Of Birth</Form.Label>
+                                    <Form.Label>Date of Birth</Form.Label>
                                     <Form.Control
                                         type="date"
                                         name="birthDate"
@@ -303,8 +309,8 @@ const UserDetail = () => {
                                 </Form.Group>
                             </Col>
                         </Row>
-                        <Button variant="primary" type="submit" className="mt-3" disabled={loadingUpdate}>
-                            {loadingUpdate ? <Spinner animation="border" size="sm" role="status" aria-hidden="true" /> : 'Save Changes'}
+                        <Button variant="primary" type="submit">
+                            {loadingUpdate ? <Spinner as="span" animation="border" size="sm" role="status" aria-hidden="true" /> : 'Update'}
                         </Button>
                     </Form>
                 </Modal.Body>

@@ -24,7 +24,7 @@ function App() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (isTokenExpired()) {
+      if (isTokenExpired() && window.location.pathname!="/register" && window.location.pathname!="/") {
         alert('Session has expired. Please log in again.');
         logout();
         Cookie.remove('userInfo');
