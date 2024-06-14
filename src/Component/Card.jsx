@@ -123,7 +123,7 @@ const Card = () => {
               <Col xs={12} className='mb-3' key={user._id}>
                 <div className="profile-card">
                   <div className="profile-header">
-                    <img src={require(`../images/demo-pic35.jpg`)} className="profile-img" alt="..." />
+                    <img src={ user.profileImage ||require(`../images/demo-pic35.jpg`)} className="profile-img" alt="..." />
                     <div className="profile-info">
                       <h2 className="profile-name">{user.givenName} {user.middleName} {user.lastName}</h2>
                       <p className="profile-occupation">{user.occupation ? user.occupation : "N/A"}</p>

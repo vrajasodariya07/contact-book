@@ -84,7 +84,7 @@ const signin = (phoneNumber, password) => async (dispatch) => {
 const register = (data) => async (dispatch) => {
   dispatch({ type: USER_REGISTER_REQUEST, payload: data });
   try {
-    const { data: responseData } = await Axios.post("http://localhost:7000/api/users/signup", data);
+    const { data: responseData } = await Axios.post("https://contactclub.vercel.app/api/users/signup", data);
     dispatch({ type: USER_REGISTER_SUCCESS, payload: responseData });
     // localStorage.setItem('userInfo', JSON.stringify(responseData));
   } catch (error) {
