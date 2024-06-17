@@ -24,47 +24,68 @@ import {
   USER_SEARCH_REQUEST,
   USER_SEARCH_SUCCESS,
   USER_SEARCH_FAIL,
-  USER_UPDATE_FAIL
+  USER_UPDATE_FAIL,
+  ADD_SURNAME_REQUEST,
+  ADD_SURNAME_SUCCESS,
+  ADD_SURNAME_FAILURE,
+  GET_SURNAMES_REQUEST,
+  GET_SURNAMES_SUCCESS,
+  GET_SURNAMES_FAILURE,
+  DELETE_SURNAME_REQUEST,
+  DELETE_SURNAME_SUCCESS,
+  DELETE_SURNAME_FAILURE,
+  UPDATE_SURNAME_REQUEST,
+  UPDATE_SURNAME_SUCCESS,
+  UPDATE_SURNAME_FAILURE
 } from "../constants/userConstants";
 import { logout as authLogout } from '../auth';
 
-// const update = ({ userId, name, email, password }) => async (dispatch, getState) => {
-//   const { userSignin: { userInfo } } = getState();
-//   dispatch({ type: USER_UPDATE_REQUEST, payload: { userId, name, email, password } });
-//   try {
-//     const { data } = await Axios.put("/api/users/" + userId,
-//       { name, email, password }, {
-//       headers: {
-//         Authorization: 'Bearer ' + userInfo.token
-//       }
-//     });
-//     dispatch({ type: USER_UPDATE_SUCCESS, payload: data });
-//     Cookie.set('userInfo', JSON.stringify(data));
-//   } catch (error) {
-//     dispatch({ type: USER_UPDATE_FAIL, payload: error.message });
-//   }
-// }
+const addSurname = (name) => {
+  return async (dispatch) => {
+    dispatch({ type: ADD_SURNAME_REQUEST, payload: name });
+    try {
+      const response = await Axios.post('http://localhost:7000/api/users/surnames', { name });
+      dispatch({ type: ADD_SURNAME_SUCCESS, payload: response });
+    } catch (error) {
+      dispatch({
+        type: ADD_SURNAME_FAILURE,
+        payload: error,
+      });
+    }
+  };
+};
 
-// const updateUserProfile = (user) => async (dispatch, getState) => {
-//   dispatch({ type: USER_UPDATE_PROFILE_REQUEST, payload: user });
-//   const {
-//     userSignin: { userInfo },
-//   } = getState();
-//   try {
-//     const { data } = await Axios.put(`/api/users/profile`, user, {
-//       headers: { Authorization: `Bearer ${userInfo.token}` },
-//     });
-//     dispatch({ type: USER_UPDATE_PROFILE_SUCCESS, payload: data });
-//     dispatch({ type: USER_SIGNIN_SUCCESS, payload: data });
-//     localStorage.setItem('userInfo', JSON.stringify(data));
-//   } catch (error) {
-//     const message =
-//       error.response && error.response.data.message
-//         ? error.response.data.message
-//         : error.message;
-//     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
-//   }
-// }
+export const getSurnames = () => async (dispatch) => {
+  dispatch({ type: GET_SURNAMES_REQUEST });
+  try {
+    const response = await Axios.get('http://localhost:7000/api/users/surnames');
+    dispatch({ type: GET_SURNAMES_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: GET_SURNAMES_FAILURE, payload: error.message });
+  }
+};
+
+// Delete surname
+export const deleteSurname = (id) => async (dispatch) => {
+  dispatch({ type: DELETE_SURNAME_REQUEST, payload: id });
+  try {
+    await Axios.delete(`http://localhost:7000/api/users/surnames/${id}`);
+    dispatch({ type: DELETE_SURNAME_SUCCESS, payload: id });
+  } catch (error) {
+    dispatch({ type: DELETE_SURNAME_FAILURE, payload: error.message });
+  }
+};
+
+// Update surname
+export const updateSurname = (id, name) => async (dispatch) => {
+  dispatch({ type: UPDATE_SURNAME_REQUEST, payload: { id, name } });
+  try {
+    const response = await Axios.put(`http://localhost:7000/api/users/surnames/${id}`, { name });
+    dispatch({ type: UPDATE_SURNAME_SUCCESS, payload: response.data });
+  } catch (error) {
+    dispatch({ type: UPDATE_SURNAME_FAILURE, payload: error.message });
+  }
+};
 
 const signin = (phoneNumber, password) => async (dispatch) => {
   dispatch({ type: USER_SIGNIN_REQUEST, payload: { phoneNumber, password } });
@@ -96,7 +117,6 @@ const register = (data) => async (dispatch) => {
     });
   }
 };
-
 
 const enum_data = () => async (dispatch, getState) => {
   dispatch({ type: USER_ENUM_REQUEST });
@@ -134,9 +154,6 @@ const updateProfile = (user) => async (dispatch, getState) => {
     dispatch({ type: USER_UPDATE_PROFILE_FAIL, payload: message });
   }
 };
-
-
-
 
 const detailsUser = (userId) => async (dispatch, getState) => {
 
@@ -273,4 +290,4 @@ const logout = () => (dispatch) => {
 
 
 
-export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser, updateProfile, searchUsers };
+export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser, updateProfile, searchUsers, addSurname };
