@@ -14,6 +14,7 @@ const Profile = () => {
         city: '',
         occupation: ''
     });
+    const [profileImage, setProfileImage] = useState(null);
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -29,7 +30,7 @@ const Profile = () => {
 
     useEffect(() => {
         dispatch(enum_data());
-    }, [dispatch])
+    }, [dispatch]);
 
     useEffect(() => {
         if (userInfo) {
@@ -49,6 +50,7 @@ const Profile = () => {
             city: users?.city || '',
             occupation: users?.occupation || ''
         });
+        setProfileImage(users?.profileImage || null);
         setShowModal(true);
     };
 
@@ -58,6 +60,7 @@ const Profile = () => {
             maritalStatus: formData.maritalStatus,
             city: formData.city,
             occupation: formData.occupation,
+            profileImage: profileImage
         };
         dispatch(updateProfile(updatedUser));
         setShowModal(false);
@@ -66,6 +69,17 @@ const Profile = () => {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+
+    const handleImageUpload = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfileImage(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
     };
 
     return (
@@ -78,7 +92,11 @@ const Profile = () => {
                 ) : (
                     <Row className="my-4">
                         <Col md={6} className="user-detail-image">
-                            <Image src={require('../images/demo-pic35.jpg')} fluid rounded />
+                            <Image
+                                src={profileImage || require('../images/demo-pic35.jpg')}
+                                fluid
+                                rounded
+                            />
                         </Col>
                         <Col md={6} className="user-detail-info">
                             <h1 className="user-detail-header">
@@ -143,6 +161,15 @@ const Profile = () => {
                                     name="occupation"
                                     value={formData.occupation}
                                     onChange={handleChange}
+                                />
+                            </Form.Group>
+
+                            <Form.Group controlId="formProfileImage">
+                                <Form.Label>Profile Image</Form.Label>
+                                <Form.Control
+                                    type="file"
+                                    name="profileImage"
+                                    onChange={handleImageUpload}
                                 />
                             </Form.Group>
                         </Form>

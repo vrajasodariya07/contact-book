@@ -56,7 +56,7 @@ const addSurname = (name) => {
 };
 
 export const getSurnames = () => async (dispatch) => {
-  dispatch({ type: GET_SURNAMES_REQUEST });
+  dispatch({ type: GET_SURNAMES_REQUEST  });
   try {
     const response = await Axios.get('http://localhost:7000/api/users/surnames');
     dispatch({ type: GET_SURNAMES_SUCCESS, payload: response.data });
@@ -65,7 +65,6 @@ export const getSurnames = () => async (dispatch) => {
   }
 };
 
-// Delete surname
 export const deleteSurname = (id) => async (dispatch) => {
   dispatch({ type: DELETE_SURNAME_REQUEST, payload: id });
   try {
@@ -76,7 +75,6 @@ export const deleteSurname = (id) => async (dispatch) => {
   }
 };
 
-// Update surname
 export const updateSurname = (id, name) => async (dispatch) => {
   dispatch({ type: UPDATE_SURNAME_REQUEST, payload: { id, name } });
   try {
