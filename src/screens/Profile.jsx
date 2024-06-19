@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../userDetail.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { detailsUser, enum_data, updateProfile } from '../action/userAction';
+import { detailsUser, enum_data, updateProfile, updateProfileImage } from '../action/userAction';
 import { Container, Row, Col, Image, Button, Modal, Form } from 'react-bootstrap';
 import Loader from '../Component/Loader';
-import Header from '../Component/Header';
 
 const Profile = () => {
     const dispatch = useDispatch();
@@ -15,6 +14,7 @@ const Profile = () => {
         occupation: ''
     });
     const [profileImage, setProfileImage] = useState(null);
+    const [profileImageUrl, setProfileImageUrl] = useState('');
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
@@ -24,6 +24,9 @@ const Profile = () => {
 
     const userProfileUpdate = useSelector((state) => state.userProfileUpdate);
     const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userProfileUpdate;
+
+    const userProfileImageUpdate = useSelector((state) => state.userProfileImageUpdate) || {};
+    const { loading: loadingImageUpdate, error: errorImageUpdate, success: successImageUpdate } = userProfileImageUpdate;
 
     const userEnum = useSelector((state) => state.userEnum);
     const { data, loading: enumLoading, error: enumError } = userEnum;
@@ -39,28 +42,36 @@ const Profile = () => {
     }, [dispatch, userInfo]);
 
     useEffect(() => {
-        if (successUpdate) {
+        if (successUpdate || successImageUpdate) {
             dispatch(detailsUser(userInfo._id));
         }
-    }, [dispatch, successUpdate, userInfo]);
+    }, [dispatch, successUpdate, successImageUpdate, userInfo]);
+
+    useEffect(() => {
+        if (users) {
+            setFormData({
+                maritalStatus: users.maritalStatus || '',
+                city: users.city || '',
+                occupation: users.occupation || ''
+            });
+            setProfileImageUrl(users.profileImage || '');
+        }
+    }, [users]);
 
     const handleEdit = () => {
-        setFormData({
-            maritalStatus: users?.maritalStatus || '',
-            city: users?.city || '',
-            occupation: users?.occupation || ''
-        });
-        setProfileImage(users?.profileImage || null);
         setShowModal(true);
     };
 
     const handleSave = () => {
+        if (profileImage) {
+            dispatch(updateProfileImage(userInfo._id, profileImage));
+        }
+
         const updatedUser = {
             ...users,
             maritalStatus: formData.maritalStatus,
             city: formData.city,
-            occupation: formData.occupation,
-            profileImage: profileImage
+            occupation: formData.occupation
         };
         dispatch(updateProfile(updatedUser));
         setShowModal(false);
@@ -74,11 +85,7 @@ const Profile = () => {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setProfileImage(reader.result);
-            };
-            reader.readAsDataURL(file);
+            setProfileImage(file);
         }
     };
 
@@ -93,7 +100,7 @@ const Profile = () => {
                     <Row className="my-4">
                         <Col md={6} className="user-detail-image">
                             <Image
-                                src={profileImage || require('../images/demo-pic35.jpg')}
+                                src={profileImageUrl || require('../images/demo-pic35.jpg')}
                                 fluid
                                 rounded
                             />
@@ -163,7 +170,6 @@ const Profile = () => {
                                     onChange={handleChange}
                                 />
                             </Form.Group>
-
                             <Form.Group controlId="formProfileImage">
                                 <Form.Label>Profile Image</Form.Label>
                                 <Form.Control

@@ -36,7 +36,10 @@ import {
   DELETE_SURNAME_FAILURE,
   UPDATE_SURNAME_REQUEST,
   UPDATE_SURNAME_SUCCESS,
-  UPDATE_SURNAME_FAILURE
+  UPDATE_SURNAME_FAILURE,
+  USER_UPDATE_PROFILE_IMAGE_REQUEST,
+  USER_UPDATE_PROFILE_IMAGE_SUCCESS,
+  USER_UPDATE_PROFILE_IMAGE_FAIL
 } from "../constants/userConstants";
 import { logout as authLogout } from '../auth';
 
@@ -56,7 +59,7 @@ const addSurname = (name) => {
 };
 
 export const getSurnames = () => async (dispatch) => {
-  dispatch({ type: GET_SURNAMES_REQUEST  });
+  dispatch({ type: GET_SURNAMES_REQUEST });
   try {
     const response = await Axios.get('http://localhost:7000/api/users/surnames');
     dispatch({ type: GET_SURNAMES_SUCCESS, payload: response.data });
@@ -82,6 +85,35 @@ export const updateSurname = (id, name) => async (dispatch) => {
     dispatch({ type: UPDATE_SURNAME_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: UPDATE_SURNAME_FAILURE, payload: error.message });
+  }
+};
+
+const updateProfileImage = (userId, profileImage) => async (dispatch, getState) => {
+  try {
+      dispatch({ type: USER_UPDATE_PROFILE_IMAGE_REQUEST });
+
+      const formData = new FormData();
+      formData.append('userId', userId);
+      formData.append('profileImage', profileImage);
+
+      const { data } = await Axios.post('/api/users/updateProfileImage', formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+          },
+      });
+
+      dispatch({
+          type: USER_UPDATE_PROFILE_IMAGE_SUCCESS,
+          payload: data,
+      });
+
+  } catch (error) {
+      dispatch({
+          type: USER_UPDATE_PROFILE_IMAGE_FAIL,
+          payload: error.response && error.response.data.message
+              ? error.response.data.message
+              : error.message,
+      });
   }
 };
 
@@ -288,4 +320,4 @@ const logout = () => (dispatch) => {
 
 
 
-export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser, updateProfile, searchUsers, addSurname };
+export { signin, listUsers, register, enum_data, logout, detailsUser, updateUser, updateProfile, searchUsers, addSurname, updateProfileImage };

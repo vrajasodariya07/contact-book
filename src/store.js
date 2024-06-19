@@ -2,7 +2,7 @@ import { createStore, combineReducers, compose, applyMiddleware } from 'redux';
 import { thunk } from 'redux-thunk';
 import Cookie from 'js-cookie';
 
-import { surnameReducer, userDetailsReducer, userEnumReducer, userListReducer, userRegisterReducer, userSearchReducer, userSigninReducer, userUpdateProfileReducer, userUpdateReducer } from './reducer/userSigninReducer';
+import { surnameReducer, userDetailsReducer, userEnumReducer, userListReducer, userProfileImageUpdateReducer, userRegisterReducer, userSearchReducer, userSigninReducer, userUpdateProfileReducer, userUpdateReducer } from './reducer/userSigninReducer';
 
 const userInfo = Cookie.get('userInfo') ? JSON.parse(Cookie.get('userInfo')) : '';
 const initialState = {
@@ -18,6 +18,7 @@ const reducer = combineReducers({
     userSearch: userSearchReducer,
     userUpdate: userUpdateReducer,
     surnames: surnameReducer,
+    userProfileImageUpdate: userProfileImageUpdateReducer,
 })
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
