@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import '../App.css';
 import { Col, Container, Row, Spinner } from 'react-bootstrap';
-import { enum_data, register } from '../action/userAction';
+import { enum_data, register, getSurnames } from '../action/userAction';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
@@ -29,10 +29,13 @@ const RegistrationForm = () => {
   const userEnum = useSelector((state) => state.userEnum);
   const { data, loading: enumLoading } = userEnum;
 
+  const surnameData = useSelector((state) => state.surnames);
+  const { surnames, loading: surnameLoading } = surnameData;
+
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
-  const redirect = new URLSearchParams(location.search).get('redirect') || '/login';
+  const redirect = new URLSearchParams(location.search).get('redirect') || '/';
 
   useEffect(() => {
     if (userInfo) {
@@ -46,6 +49,7 @@ const RegistrationForm = () => {
 
   useEffect(() => {
     dispatch(enum_data());
+    dispatch(getSurnames());
   }, [dispatch]);
 
   const submitHandler = (e) => {
@@ -113,15 +117,23 @@ const RegistrationForm = () => {
                 <Row>
                   <Col md={6}>
                     <div className="form-group">
-                      <input
-                        type="text"
+                      <select
                         id="lastName"
                         name="lastName"
                         placeholder="Last Name"
                         value={lastName}
                         onChange={(e) => setLastName(e.target.value)}
                         required
-                      />
+                      >
+                        <option value="">Select Last Name</option>
+                        {!surnameLoading && surnames && surnames.length > 0 ? (
+                          surnames.map((surname) => (
+                            <option key={surname._id} value={surname.name}>{surname.name}</option>
+                          ))
+                        ) : (
+                          <option value="" disabled>Loading...</option>
+                        )}
+                      </select>
                     </div>
                   </Col>
                   <Col md={6}>

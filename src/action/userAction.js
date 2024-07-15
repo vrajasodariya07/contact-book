@@ -47,7 +47,7 @@ const addSurname = (name) => {
   return async (dispatch) => {
     dispatch({ type: ADD_SURNAME_REQUEST, payload: name });
     try {
-      const response = await Axios.post('http://localhost:7000/api/users/surnames', { name });
+      const response = await Axios.post('https://contactclub.vercel.app/api/users/surnames', { name });
       dispatch({ type: ADD_SURNAME_SUCCESS, payload: response });
     } catch (error) {
       dispatch({
@@ -61,7 +61,7 @@ const addSurname = (name) => {
 export const getSurnames = () => async (dispatch) => {
   dispatch({ type: GET_SURNAMES_REQUEST });
   try {
-    const response = await Axios.get('http://localhost:7000/api/users/surnames');
+    const response = await Axios.get('https://contactclub.vercel.app/api/users/surnames');
     dispatch({ type: GET_SURNAMES_SUCCESS, payload: response.data });
   } catch (error) {
     dispatch({ type: GET_SURNAMES_FAILURE, payload: error.message });
@@ -96,7 +96,7 @@ const updateProfileImage = (userId, profileImage) => async (dispatch, getState) 
       formData.append('userId', userId);
       formData.append('profileImage', profileImage);
 
-      const { data } = await Axios.post('/api/users/updateProfileImage', formData, {
+      const { data } = await Axios.post('https://contactclub.vercel.app/api/users/updateProfileImage', formData, {
           headers: {
               'Content-Type': 'multipart/form-data',
           },

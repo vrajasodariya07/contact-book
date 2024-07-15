@@ -8,19 +8,19 @@ import { Row, Col } from 'react-bootstrap';
 const Request = () => {
     const dispatch = useDispatch();
     const [currentPage, setCurrentPage] = useState(1);
-    const [refresh, setRefresh] = useState(false); // Add a state to trigger re-fetch
 
     // Get user list from Redux store
     const userList = useSelector((state) => state.userList);
     const { loading, error, users } = userList;
 
-    // Dispatch action to fetch user list on component mount and refresh
+    // Dispatch action to fetch user list on component mount
     useEffect(() => {
         dispatch(listUsers());
-    }, [dispatch, refresh]); // Add refresh to dependency array
+    }, [dispatch]);
 
     // Filter inactive users (isActive: false)
     const inactiveUsers = users?.userList?.filter(user => !user.isActive);
+    console.log(inactiveUsers);
 
     // Pagination
     const itemsPerPage = 6;
@@ -31,15 +31,17 @@ const Request = () => {
     // Handle approve action
     const handleApprove = (request) => {
         const updatedRequest = { ...request, isActive: true };
-        dispatch(updateUser(updatedRequest));
-        setRefresh(!refresh); // Toggle refresh state to trigger re-fetch
+        dispatch(updateUser(updatedRequest)).then(() => {
+            dispatch(listUsers()); 
+        });
     };
 
     // Handle decline action
     const handleDecline = (request) => {
         const updatedRequest = { ...request, isActive: false };
-        dispatch(updateUser(updatedRequest));
-        setRefresh(!refresh); // Toggle refresh state to trigger re-fetch
+        dispatch(updateUser(updatedRequest)).then(() => {
+            dispatch(listUsers()); 
+        });
     };
 
     // Change page
@@ -103,7 +105,7 @@ const Request = () => {
                         <Row className="justify-content-center">
                             <Col>
                                 <ul className="pagination justify-content-center">
-                                    {[...Array(Math.ceil(inactiveUsers.length / itemsPerPage)).keys()].map(number => (
+                                    {[...Array(Math.ceil(inactiveUsers?.length / itemsPerPage)).keys()].map(number => (
                                         <li key={number} className="page-item">
                                             <a onClick={() => paginate(number + 1)} className="page-link">
                                                 {number + 1}
