@@ -92,6 +92,10 @@ const updateProfileImage = (userId, profileImage) => async (dispatch, getState) 
   try {
     dispatch({ type: USER_UPDATE_PROFILE_IMAGE_REQUEST });
 
+    const {
+      userSignin: { userInfo },
+    } = getState();
+
     const formData = new FormData();
     formData.append('userId', userId);
     formData.append('profileImage', profileImage);
