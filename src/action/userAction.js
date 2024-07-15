@@ -90,30 +90,31 @@ export const updateSurname = (id, name) => async (dispatch) => {
 
 const updateProfileImage = (userId, profileImage) => async (dispatch, getState) => {
   try {
-      dispatch({ type: USER_UPDATE_PROFILE_IMAGE_REQUEST });
+    dispatch({ type: USER_UPDATE_PROFILE_IMAGE_REQUEST });
 
-      const formData = new FormData();
-      formData.append('userId', userId);
-      formData.append('profileImage', profileImage);
+    const formData = new FormData();
+    formData.append('userId', userId);
+    formData.append('profileImage', profileImage);
 
-      const { data } = await Axios.post('https://contactclub.vercel.app/api/users/updateProfileImage', formData, {
-          headers: {
-              'Content-Type': 'multipart/form-data',
-          },
-      });
+    const { data } = await Axios.post('https://contactclub.vercel.app/api/users/updateProfileImage', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${userInfo.token}`
+      },
+    });
 
-      dispatch({
-          type: USER_UPDATE_PROFILE_IMAGE_SUCCESS,
-          payload: data,
-      });
+    dispatch({
+      type: USER_UPDATE_PROFILE_IMAGE_SUCCESS,
+      payload: data,
+    });
 
   } catch (error) {
-      dispatch({
-          type: USER_UPDATE_PROFILE_IMAGE_FAIL,
-          payload: error.response && error.response.data.message
-              ? error.response.data.message
-              : error.message,
-      });
+    dispatch({
+      type: USER_UPDATE_PROFILE_IMAGE_FAIL,
+      payload: error.response && error.response.data.message
+        ? error.response.data.message
+        : error.message,
+    });
   }
 };
 
