@@ -98,8 +98,8 @@ const updateProfileImage = (userId, profileImage) => async (dispatch, getState) 
 
     const { data } = await Axios.post('https://contactclub.vercel.app/api/users/updateProfileImage', formData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: `Bearer ${userInfo.token}`
+        Authorization: `Bearer ${userInfo.token}`,
+        'Content-Type': 'multipart/form-data'
       },
     });
 
